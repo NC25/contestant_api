@@ -11,24 +11,36 @@ import java.util.List;
 @RestController
 public class HusbandService
 {
-    //private HashMap<String, Contestant> usersMap;
-    private ArrayList<Contestant> usersMap;
+    private HashMap<String, Contestant> usersMap;
 
     public HusbandService(){
-        usersMap = new ArrayList<Contestant>();
+        usersMap = new HashMap<String, Contestant>();
     }
     public Contestant getUser(String name){
-        for (Contestant contestant: usersMap){
-            if (name == contestant.getHusbandName()){
-                return contestant;
-            }
+        return usersMap.get(name);
+    }
+
+    public void createContest(Contestant contestant) throws Exception {
+        if (contestant.getContestantName() == null || contestant.getHusbandName() == null ||
+        contestant.getHusbandLocation() == 0 || contestant.getVocalRange() == 0){
+            throw new Exception("Missing Field");
         }
-        return null;
+        usersMap.put(contestant.getContestantName(), contestant);
     }
 
-    public void createContest(Contestant contestant){
-        usersMap.add(contestant);
+    public List getAll(){
+        ArrayList<Contestant> ans = new ArrayList<Contestant>();
+        for (String name: usersMap.keySet()){
+            ans.add(usersMap.get(name));
+        }
+        return ans;
     }
 
-
+    public int getScore(String name) throws Exception {
+        Contestant c = usersMap.get(name);
+        if (!usersMap.containsKey(name)){
+            throw new Exception("Not registered");
+        }
+        return c.score();
+    }
 }

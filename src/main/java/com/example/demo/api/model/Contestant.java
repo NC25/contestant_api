@@ -29,20 +29,31 @@ public class Contestant {
             return this.husbandLocation;
         }
 
-    private void setHusbandName(String husbandName){
+    public void setHusbandName(String husbandName){
         this.husbandName = husbandName;
     }
 
-    private void setVocalRange(int vocalRange){
+    public void setVocalRange(int vocalRange){
         this.vocalRange = vocalRange;
     }
 
-    private void setContestantName(String contestantName){
+    public void setContestantName(String contestantName){
         this.contestantName = contestantName;
     }
 
-    private void setHusbandLoc(int husbandLoc){
+    public void setHusbandLoc(int husbandLoc){
         this.husbandLocation = husbandLoc;
+    }
+
+    public int score() throws Exception {
+            if (getVocalRange() == getHusbandLocation()){
+                return getHusbandLocation();
+            }
+            else if (getVocalRange() > getHusbandLocation()){
+                return Math.abs(getVocalRange() - getHusbandLocation());
+            }
+
+        throw new Exception("Vocal Range is less than the husband location");
     }
 
 

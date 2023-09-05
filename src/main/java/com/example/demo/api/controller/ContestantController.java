@@ -7,6 +7,8 @@ import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class ContestantController {
 
@@ -16,18 +18,37 @@ public class ContestantController {
     public ContestantController(HusbandService service){
         this.service = service;
     }
-    @GetMapping("/name")
+    /* Test Get Request. Retrieve contestant based on name */
+    @GetMapping("/user")
     public Contestant getUser(@RequestParam String name){
 
         return service.getUser(name);
     }
 
-    @RequestMapping(method=RequestMethod.POST, value="/contestants", consumes = {"text/plain;charset=UTF-8"})
+    /* Get Method to recieve all contestants. If I wanted Pairs, I would
+    just return an arraylist of pairs in the service*/
+    @GetMapping("/contestants")
+    public List getAll(){
 
-    public void addContestant(@RequestBody Contestant contestant){
+        return service.getAll();
+    }
+
+    /* Get score based on contestant */
+    @RequestMapping("/husbandCall/{name}")
+    public int getScore(@PathVariable  String name) throws Exception {
+
+        return service.getScore(name);
+    }
+
+    /* Post request to create users. Deals with error handling. */
+    @RequestMapping(method=RequestMethod.POST, value="/create-contestants")
+
+    public void addContestant(@RequestBody Contestant contestant) throws Exception {
         service.createContest(contestant);
 
     }
+
+
 
 
 
